@@ -5,14 +5,14 @@ public static class Calculator
     public static void Run()
     {
         
-        var inputDict = ReadData();
+        var inputDict = ConsoleMenu.ReadData();
        Parse(inputDict);
     }
 
     public static void Parse(Dictionary<string, string> inputDict)
     {
         var dictionary = new Dictionary<string, int>();
-        double[] results = [];
+        var results = new double[1];
         try
         {
             foreach (var item in inputDict)
@@ -20,6 +20,7 @@ public static class Calculator
                 dictionary.Add(item.Key, int.Parse(item.Value));
             }
             results = Calculate(dictionary);
+            PrintResult(results);
         }
         catch (FormatException e)
         {
@@ -35,12 +36,12 @@ public static class Calculator
             IntOverflow(e.Message, Severity.Warning, inputDict);    
         }
         
-        PrintResult(results);   
+           
     }
     
     private static double[] Calculate(Dictionary<string, int> inputDict)
     {
-        var results = new double[2];
+        var listx = new List<double>();
         var (a, b, c) = (inputDict["a"], inputDict["b"], inputDict["c"]);
         var discriminant = Math.Pow(b, 2) - 4 * a * c;
         if (discriminant < 0)
@@ -49,16 +50,16 @@ public static class Calculator
         }
         if (discriminant == 0)
         {
-            results[0]= (-b + Math.Sqrt(discriminant)) / 2 * a;
+            listx.Add((-b + Math.Sqrt(discriminant)) / 2 * a);
         }
         if (discriminant > 0)
         {
-            results[0]= (-b + Math.Sqrt(discriminant)) / 2 * a;
-            results[1]= (-b - Math.Sqrt(discriminant)) / 2 * a;
+            listx.Add((-b + Math.Sqrt(discriminant)) / 2 * a);
+            listx.Add((-b - Math.Sqrt(discriminant)) / 2 * a);
         }
 
+        var results = listx.ToArray();
         return results;
-
     }
     
     public static double[] Calculate(int a, int b, int c)
@@ -87,7 +88,7 @@ public static class Calculator
 
     private static Dictionary<string, string> ReadData()
     {
-        string[] operands = ["a","b","c"];
+        var operands = new[] { "a", "b", "c" };
         var dictionary = new Dictionary<string, string>();
         foreach (var item in operands)
         {
