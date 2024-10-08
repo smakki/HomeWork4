@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HomeWork4
+﻿namespace HomeWork4
 {
     internal class ConsoleMenu
     {
+        static Dictionary<string, string> operands = new Dictionary<string, string>();
         static string[] menuOptions = { "a", "b", "c", "Exit" };
-        
+
         static void ClearScreen()
         {
             Console.Clear();
@@ -18,8 +13,10 @@ namespace HomeWork4
         static void ShowMainMenu(int selectedIndex)
         {
             ClearScreen();
+
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("===== Main Menu =====");
+            Console.WriteLine("{0} * x^2 + {1} * x + {2} = 0",
+                operands.GetValueOrDefault("a") ?? "a", operands.GetValueOrDefault("b") ?? "b", operands.GetValueOrDefault("c") ?? "c");
             Console.ResetColor();
 
             // Loop through menu options
@@ -42,9 +39,6 @@ namespace HomeWork4
 
         public static Dictionary<string, string> ReadData()
         {
-            Console.WriteLine("ax2 + bx + c = 0");
-            var dictionary = new Dictionary<string, string>();
-
             int selectedIndex = 0;
             bool running = true;
 
@@ -73,13 +67,68 @@ namespace HomeWork4
                                 Console.WriteLine("Exiting... Thank you!");
                                 Thread.Sleep(1000);
                                 running = false;
+                                Environment.Exit(0);
                                 break;
-                            
+                            default:
+                                return operands;
+                        }
+                        break;
+
+                    case ConsoleKey.Backspace:
+                        try
+                        {
+                            var before = operands[menuOptions[selectedIndex]];
+                            var after = before.Remove(before.Length - 1, 1);
+                            operands[menuOptions[selectedIndex]] = after.Length == 0 ? null : after;
+                        }
+                        catch
+                        {
+                            operands[menuOptions[selectedIndex]] = null;
+                        }
+                        break;
+                    
+                    case ConsoleKey.Subtract or ConsoleKey.OemMinus:
+                        try
+                        {
+                            var before = operands[menuOptions[selectedIndex]];
+                            if (String.IsNullOrEmpty(before))
+                            {
+                                operands[menuOptions[selectedIndex]] = "-";
+                            }
+                            else
+                            {
+                                if (before.StartsWith("-"))
+                                {
+                                    operands[menuOptions[selectedIndex]] = before.Substring(1);
+                                }
+                                else
+                                {
+                                    operands[menuOptions[selectedIndex]] = "-" + before;
+                                }
+                            }
+                        }
+                        catch
+                        {
+                            operands[menuOptions[selectedIndex]] = "-";
+                        }
+                        break;
+                   
+                    default:
+                        if (Char.IsDigit(keyInfo.KeyChar))
+                        {
+                            try
+                            {
+                                operands[menuOptions[selectedIndex]] += keyInfo.KeyChar;
+                            }
+                            catch
+                            {
+                                operands.Add(menuOptions[selectedIndex], keyInfo.KeyChar.ToString());
+                            }
                         }
                         break;
                 }
             }
-            return dictionary;
+            return operands;
 
         }
 

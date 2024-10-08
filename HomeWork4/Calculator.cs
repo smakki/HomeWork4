@@ -74,6 +74,7 @@ public static class Calculator
 
     private static void PrintResult(double[] results)
     {
+        Console.WriteLine("Results:");
         if (results.Length == 1)
         {
             Console.WriteLine("x = {0}",results[0]);
@@ -84,6 +85,8 @@ public static class Calculator
             Console.WriteLine("x1 = {0}",results[0]);
             Console.WriteLine("x2 = {0}",results[1]);
         }
+        Console.WriteLine("Press any key to continue");
+        Console.ReadKey();
     }
 
     private static Dictionary<string, string> ReadData()
@@ -119,6 +122,8 @@ public static class Calculator
             Console.WriteLine("{0} = {1}", item.Key, item.Value);
         }
         Console.ResetColor();
+        Console.WriteLine("Press any key to continue");
+        Console.ReadKey();
     }
     
     private static void IntOverflow(string message, Severity severity, IDictionary<string,string> data)
