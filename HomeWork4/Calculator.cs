@@ -4,9 +4,8 @@ public static class Calculator
 {
     public static void Run()
     {
-        
         var inputDict = ConsoleMenu.ReadData();
-       Parse(inputDict);
+        Parse(inputDict);
     }
 
     public static void Parse(Dictionary<string, string> inputDict)
@@ -30,15 +29,13 @@ public static class Calculator
         {
             FormatData(e.Message, Severity.Warning, inputDict);
         }
-        
+
         catch (OverflowException e)
         {
-            IntOverflow(e.Message, Severity.Warning, inputDict);    
+            IntOverflow(e.Message, Severity.Warning, inputDict);
         }
-        
-           
     }
-    
+
     private static double[] Calculate(Dictionary<string, int> inputDict)
     {
         var listx = new List<double>();
@@ -57,11 +54,10 @@ public static class Calculator
             listx.Add((-b + Math.Sqrt(discriminant)) / 2 * a);
             listx.Add((-b - Math.Sqrt(discriminant)) / 2 * a);
         }
-
         var results = listx.ToArray();
         return results;
     }
-    
+
     public static double[] Calculate(int a, int b, int c)
     {
         var dict = new Dictionary<string, int>();
@@ -70,20 +66,20 @@ public static class Calculator
         dict.Add("c", c);
         return Calculate(dict);
     }
-    
+
 
     private static void PrintResult(double[] results)
     {
         Console.WriteLine("Results:");
         if (results.Length == 1)
         {
-            Console.WriteLine("x = {0}",results[0]);
+            Console.WriteLine("x = {0}", results[0]);
         }
 
         if (results.Length == 2)
         {
-            Console.WriteLine("x1 = {0}",results[0]);
-            Console.WriteLine("x2 = {0}",results[1]);
+            Console.WriteLine("x1 = {0}", results[0]);
+            Console.WriteLine("x2 = {0}", results[1]);
         }
         Console.WriteLine("Press any key to continue");
         Console.ReadKey();
@@ -95,13 +91,13 @@ public static class Calculator
         var dictionary = new Dictionary<string, string>();
         foreach (var item in operands)
         {
-            Console.WriteLine("Введите значение {0}",item);
-            dictionary.Add(item,Console.ReadLine()??"");
+            Console.WriteLine("Введите значение {0}", item);
+            dictionary.Add(item, Console.ReadLine() ?? "");
         }
         return dictionary;
     }
 
-    private static void FormatData(string message, Severity severity, IDictionary<string,string> data)
+    private static void FormatData(string message, Severity severity, IDictionary<string, string> data)
     {
         if (severity == Severity.Error)
         {
@@ -114,9 +110,9 @@ public static class Calculator
             Console.BackgroundColor = ConsoleColor.Yellow;
         }
 
-        Console.WriteLine(new string('-',50));
+        Console.WriteLine(new string('-', 50));
         Console.WriteLine(message);
-        Console.WriteLine(new string('-',50));
+        Console.WriteLine(new string('-', 50));
         foreach (var item in data)
         {
             Console.WriteLine("{0} = {1}", item.Key, item.Value);
@@ -125,27 +121,28 @@ public static class Calculator
         Console.WriteLine("Press any key to continue");
         Console.ReadKey();
     }
-    
-    private static void IntOverflow(string message, Severity severity, IDictionary<string,string> data)
+
+    private static void IntOverflow(string message, Severity severity, IDictionary<string, string> data)
     {
-        
+
         Console.BackgroundColor = ConsoleColor.Green;
         Console.ForegroundColor = ConsoleColor.Black;
 
-        Console.WriteLine(new string('-',50));
+        Console.WriteLine(new string('-', 50));
         Console.WriteLine(message);
         Console.WriteLine("Max value is {0}", int.MaxValue);
-        Console.WriteLine(new string('-',50));
-       
+        Console.WriteLine(new string('-', 50));
+
         foreach (var item in data)
         {
             Console.WriteLine("{0} = {1}", item.Key, item.Value);
         }
-        
+
         Console.ResetColor();
     }
 
-    private enum Severity{
+    private enum Severity
+    {
         Warning,
         Error
     }

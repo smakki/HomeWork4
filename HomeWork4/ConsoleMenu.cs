@@ -19,7 +19,6 @@
                 operands.GetValueOrDefault("a") ?? "a", operands.GetValueOrDefault("b") ?? "b", operands.GetValueOrDefault("c") ?? "c");
             Console.ResetColor();
 
-            // Loop through menu options
             for (int i = 0; i < menuOptions.Length; i++)
             {
                 if (i == selectedIndex)
@@ -33,7 +32,6 @@
                     Console.WriteLine($"  {menuOptions[i]}");
                 }
             }
-
             Console.WriteLine("=====================");
         }
 
@@ -79,14 +77,14 @@
                         {
                             var before = operands[menuOptions[selectedIndex]];
                             var after = before.Remove(before.Length - 1, 1);
-                            operands[menuOptions[selectedIndex]] = after.Length == 0 ? null : after;
+                            operands[menuOptions[selectedIndex]] = after.Length == 0 ? null! : after;
                         }
                         catch
                         {
-                            operands[menuOptions[selectedIndex]] = null;
+                            operands[menuOptions[selectedIndex]] = null!;
                         }
                         break;
-                    
+
                     case ConsoleKey.Subtract or ConsoleKey.OemMinus:
                         try
                         {
@@ -112,7 +110,7 @@
                             operands[menuOptions[selectedIndex]] = "-";
                         }
                         break;
-                   
+
                     default:
                         if (Char.IsDigit(keyInfo.KeyChar))
                         {
@@ -129,9 +127,6 @@
                 }
             }
             return operands;
-
         }
-
     }
-
 }
