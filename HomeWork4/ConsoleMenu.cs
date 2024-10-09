@@ -13,7 +13,7 @@
         static void ShowMainMenu(int selectedIndex)
         {
             ClearScreen();
-
+            
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("{0} * x^2 + {1} * x + {2} = 0",
                 operands.GetValueOrDefault("a") ?? "a", operands.GetValueOrDefault("b") ?? "b", operands.GetValueOrDefault("c") ?? "c");
@@ -21,15 +21,16 @@
 
             for (int i = 0; i < menuOptions.Length; i++)
             {
+                var currentOperand = menuOptions[i];
                 if (i == selectedIndex)
                 {
                     Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine($"> {menuOptions[i]}");
+                    Console.WriteLine($"> {menuOptions[i]} : {operands.GetValueOrDefault(currentOperand)}");
                     Console.ResetColor();
                 }
                 else
                 {
-                    Console.WriteLine($"  {menuOptions[i]}");
+                    Console.WriteLine($"  {menuOptions[i]} : {operands.GetValueOrDefault(currentOperand)}");
                 }
             }
             Console.WriteLine("=====================");
