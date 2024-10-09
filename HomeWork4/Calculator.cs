@@ -39,7 +39,7 @@ public static class Calculator
     private static double[] Calculate(Dictionary<string, int> inputDict)
     {
         var listx = new List<double>();
-        var (a, b, c) = (inputDict["a"], inputDict["b"], inputDict["c"]);
+        var (a, b, c) = (inputDict.GetValueOrDefault("a"), inputDict.GetValueOrDefault("b"), inputDict.GetValueOrDefault("c"));
         var discriminant = Math.Pow(b, 2) - 4 * a * c;
         if (discriminant < 0)
         {
@@ -81,21 +81,9 @@ public static class Calculator
             Console.WriteLine("x1 = {0}", results[0]);
             Console.WriteLine("x2 = {0}", results[1]);
         }
-        Console.WriteLine("Press any key to continue");
-        Console.ReadKey();
+        PrintAnyKey();
     }
 
-    private static Dictionary<string, string> ReadData()
-    {
-        var operands = new[] { "a", "b", "c" };
-        var dictionary = new Dictionary<string, string>();
-        foreach (var item in operands)
-        {
-            Console.WriteLine("Введите значение {0}", item);
-            dictionary.Add(item, Console.ReadLine() ?? "");
-        }
-        return dictionary;
-    }
 
     private static void FormatData(string message, Severity severity, IDictionary<string, string> data)
     {
@@ -118,8 +106,7 @@ public static class Calculator
             Console.WriteLine("{0} = {1}", item.Key, item.Value);
         }
         Console.ResetColor();
-        Console.WriteLine("Press any key to continue");
-        Console.ReadKey();
+        PrintAnyKey();
     }
 
     private static void IntOverflow(string message, Severity severity, IDictionary<string, string> data)
@@ -139,6 +126,13 @@ public static class Calculator
         }
 
         Console.ResetColor();
+        PrintAnyKey();
+    }
+
+    private static void PrintAnyKey()
+    {
+        Console.WriteLine("Press any key to continue");
+        Console.ReadKey();
     }
 
     private enum Severity

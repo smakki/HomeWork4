@@ -112,7 +112,10 @@
                         break;
 
                     default:
-                        if (Char.IsDigit(keyInfo.KeyChar))
+                        if (Char.IsDigit(keyInfo.KeyChar)
+                            || Char.IsLetter(keyInfo.KeyChar) // for debug formatData
+                            )
+                             
                         {
                             try
                             {
